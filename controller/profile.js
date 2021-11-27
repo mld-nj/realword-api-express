@@ -1,5 +1,5 @@
 //获取指定用户资料
-exports.getProfiles = async (req, res) => {
+exports.getProfiles = async (req, res, next) => {
   try {
     res.send("post/profiles/:username");
   } catch (err) {
@@ -7,7 +7,7 @@ exports.getProfiles = async (req, res) => {
   }
 };
 //关注用户
-exports.addFollow = async (req, res) => {
+exports.addFollow = async (req, res, next) => {
   try {
     res.send("post/profiles/:username/follow");
   } catch (err) {
@@ -15,7 +15,7 @@ exports.addFollow = async (req, res) => {
   }
 };
 //取消关注用户
-exports.deleteFollow = async (req, res) => {
+exports.deleteFollow = async (req, res, next) => {
   try {
     res.send("delete/profiles/:username/follow");
   } catch (err) {

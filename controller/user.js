@@ -1,13 +1,14 @@
 //用户登录
-exports.login = async (req, res) => {
+exports.login = async (req, res, next) => {
   try {
+    JSON.parse("xxx");
     res.send("post/users/login");
   } catch (err) {
     next(err);
   }
 };
 //用户注册
-exports.register = async (req, res) => {
+exports.register = async (req, res, next) => {
   try {
     res.send("post/users");
   } catch (err) {
@@ -15,7 +16,7 @@ exports.register = async (req, res) => {
   }
 };
 //获取当前用户
-exports.getUeser = async (req, res) => {
+exports.getUeser = async (req, res, next) => {
   try {
     res.send("get/user");
   } catch (err) {
@@ -23,7 +24,7 @@ exports.getUeser = async (req, res) => {
   }
 };
 //更新当前用户
-exports.updateUser = async (req, res) => {
+exports.updateUser = async (req, res, next) => {
   try {
     res.send("put/user");
   } catch (err) {
