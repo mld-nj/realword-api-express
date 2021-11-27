@@ -1,35 +1,13 @@
 const express = require("express");
+const userCtrl = require("../controller/user");
+
 const router = express.Router();
 //用户登录
-router.post("/users/login", async (req, res) => {
-  try {
-    res.send("post/users/login");
-  } catch (err) {
-    next(err);
-  }
-});
+router.post("/users/login", userCtrl.login);
 //用户注册
-router.post("/users", async (req, res) => {
-  try {
-    res.send("post/users");
-  } catch (err) {
-    next(err);
-  }
-});
+router.post("/users", userCtrl.register);
 //获取当前用户
-router.get("/user", async (req, res) => {
-  try {
-    res.send("get/user");
-  } catch (err) {
-    next(err);
-  }
-});
+router.get("/user", userCtrl.getUeser);
 //更新当前用户
-router.put("/user", async (req, res) => {
-  try {
-    res.send("put/user");
-  } catch (err) {
-    next(err);
-  }
-});
+router.put("/user", userCtrl.updateUser);
 module.exports = router;
