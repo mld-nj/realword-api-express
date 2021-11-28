@@ -7,8 +7,8 @@ exports.register = validator([
     .notEmpty()
     .withMessage("用户名不能为空")
     .bail()
-    .custom(async (value) => {
-      const user = await User.findOne(value);
+    .custom(async (username) => {
+      const user = await User.findOne({ username });
       if (user) {
         return Promise.reject("用户名已存在");
       }
@@ -22,8 +22,8 @@ exports.register = validator([
     .withMessage("邮箱格式不正确")
     //bail前面出错就不继续往下执行链式调用
     .bail()
-    .custom(async (value) => {
-      const user = await User.findOne(value);
+    .custom(async (email) => {
+      const user = await User.findOne({ email });
       if (user) {
         return Promise.reject("邮箱已存在");
       }
