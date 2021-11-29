@@ -1,8 +1,17 @@
 const { User } = require("../model/index");
+const jwt = require("../util/jwt");
 //用户登录
 exports.login = async (req, res, next) => {
   try {
-    res.send("post/users/login");
+    const user = req.user.toJSON();
+    delete user.password;
+    const token = await jwt.sign({
+      userId: user._id,
+    });
+    res.status(200).json({
+      ...user,
+      token,
+    });
   } catch (err) {
     next(err);
   }
@@ -20,9 +29,11 @@ exports.register = async (req, res, next) => {
   }
 };
 //获取当前用户
-exports.getUeser = async (req, res, next) => {
+exports.getUesr = async (req, res, next) => {
   try {
-    res.send("get/user");
+    res.status(200).json({
+      user: req.user,
+    });
   } catch (err) {
     next(err);
   }
