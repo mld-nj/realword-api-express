@@ -1,3 +1,4 @@
+const { Article } = require("../model/index");
 //获取指定用户文章列表
 exports.getArtices = async (req, res, next) => {
   try {
@@ -17,7 +18,13 @@ exports.feedArticles = async (req, res, next) => {
 //获取用户文章
 exports.getArtcle = async (req, res, next) => {
   try {
-    res.send("get/api/articles/:slug");
+    const article = await Article.findById(req.params.slug).populate("author");
+    if (!article) {
+      res.status(404).end();
+    }
+    res.status(200).json({
+      article,
+    });
   } catch (err) {
     next(err);
   }
@@ -25,7 +32,13 @@ exports.getArtcle = async (req, res, next) => {
 //创建文章
 exports.createArticle = async (req, res, next) => {
   try {
-    res.send("post/api/articles");
+    const article = new Article(req.body.article);
+    article.author = req.user._id;
+    article.populate("author");
+    await article.save();
+    res.status(201).json({
+      article,
+    });
   } catch (err) {
     next(err);
   }

@@ -3,7 +3,7 @@ const { User } = require("../model");
 module.exports = async (req, res, next) => {
   //从请求头获取token数据
   let token = req.headers.authorization;
-  token = token ? token.split("bearer ")[1] : null;
+  token = token ? token.split("Bearer ")[1] : null;
   if (!token) {
     return res.status(401).end();
   }
