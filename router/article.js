@@ -1,6 +1,10 @@
 const express = require("express");
 const articleCtrl = require("../controller/article");
-const { createArticle } = require("../validator/article");
+const {
+  createArticle,
+  updateArticle,
+  deleteArticle,
+} = require("../validator/article");
 const auth = require("../middleware/auth");
 const router = express.Router();
 //获取指定用户文章列表
@@ -12,9 +16,9 @@ router.get("/:slug", articleCtrl.getArtcle);
 //创建文章
 router.post("/", auth, createArticle, articleCtrl.createArticle);
 //更新指定文章
-router.put("/:slug", articleCtrl.updateArticle);
+router.put("/:slug", auth, updateArticle, articleCtrl.updateArticle);
 //删除指定文章
-router.delete("/:slug", articleCtrl.deleteArticle);
+router.delete("/:slug", auth, deleteArticle, articleCtrl.deleteArticle);
 //给指定文章添加评论
 router.post("/:slug/comments", articleCtrl.addComment);
 //获取指定文章评论

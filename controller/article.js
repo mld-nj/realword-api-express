@@ -2,7 +2,22 @@ const { Article } = require("../model/index");
 //获取指定用户文章列表
 exports.getArtices = async (req, res, next) => {
   try {
-    res.send("get/api/articles");
+    const { limit = 20, offset = 0, tag, author } = req.query;
+    const filter = {};
+    tag ? (filter.tagList = tag) : null;
+    author ? (filter.author = author) : null;
+    const articles = await Article.find(filter)
+      .skip(Number.parseInt(offset))
+      .limit(Number.parseInt(limit))
+      .sort({
+        //-1倒序 1正序
+        createdAt: -1,
+      });
+    const articlesCount = await Article.countDocuments();
+    res.status(200).json({
+      articles,
+      articlesCount,
+    });
   } catch (err) {
     next(err);
   }
@@ -46,7 +61,13 @@ exports.createArticle = async (req, res, next) => {
 //更新指定文章
 exports.updateArticle = async (req, res, next) => {
   try {
-    res.send("put/api/articles/:slug");
+    const article = req.article;
+    const bodyArticle = req.body.article;
+    article.title = bodyArticle.title || article.title;
+    await article.save();
+    res.status(201).json({
+      article,
+    });
   } catch (err) {
     next(err);
   }
@@ -54,7 +75,9 @@ exports.updateArticle = async (req, res, next) => {
 //删除指定文章
 exports.deleteArticle = async (req, res, next) => {
   try {
-    res.send("delete/api/articles/:slug");
+    const article = req.article;
+    await article.remove();
+    res.status(204).end();
   } catch (err) {
     next(err);
   }
